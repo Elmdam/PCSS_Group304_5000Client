@@ -152,3 +152,143 @@ namespace clientpcss
                     break;
             }
         }
+		public string MessageDecodeSender()
+		{
+			string returnMessage = "";
+			string message = Console.ReadLine().ToLower();
+			if (!GameBegin)
+			{
+				switch (message)
+				{
+					default:
+						Console.WriteLine("Game has not started yet");
+						break;
+					case "start":
+						GameBegin = true;
+						returnMessage = "start game";
+						break;
+				}
+			}
+			else if (myTurn)
+			{
+				switch (message)
+				{
+					default:
+						Console.WriteLine(
+							"THESE ARE THE COMMANDS\n \"six dice\" - rolls 6 dices \"roll dice\" - rolls your current dices \"choose dice\" - Let's you choose which dice you want to take off the board \"end turn\" - ends your turn.");
+						break;
+					case "message":
+						Console.WriteLine("Type in your message to everyone: ");
+						returnMessage = Console.ReadLine();
+						Console.WriteLine("Message sent");
+						break;
+					case "six dice":
+						CreateDice();
+						Console.WriteLine(" ");
+						Console.WriteLine("Type 'choose dice' to choose a dice value");
+						break;
+					case "roll dice":
+						RollDice();
+						break;
+					case "choose dice":
+						ChooseDice();
+						break;
+					case "end turn":
+						Console.WriteLine("Your turn has ended");
+						SendString(scores[0].ToString());
+						myTurn = false;
+						return returnMessage = "end turn";
+				}
+			}
+			else if (!myTurn)
+			{
+				switch (message)
+				{
+					default:
+						Console.WriteLine("It is not your turn yet");
+						break;
+				}
+			}
+			if (!GameBegin)
+			{
+				switch (message)
+				{
+					default:
+						Console.WriteLine("Game has not started yet");
+						break;
+					case "start":
+						returnMessage = "start game";
+						break;
+				}
+			}
+			return returnMessage;
+		}
+	}
+	public class Game
+	{
+		protected bool Lobby;
+		protected bool GameBegin;
+		protected bool GameEnd;
+		protected bool myTurn = false;
+		protected bool YouWon = false;
+		int currentPoints;
+		protected int[] scores = new int[3] { 0, 0, 0 };
+		int min = 1;
+		int max = 7;
+		static List<int> dice = new List<int>();
+		public void CreateDice()
+		{
+			if (dice.Count > 0)
+			{
+				dice.Clear();
+				dice.Add(1);
+				dice.Add(2);
+				dice.Add(3);
+				dice.Add(4);
+				dice.Add(5);
+				dice.Add(6);
+			}
+			else
+			{
+				dice.Add(1);
+				dice.Add(2);
+				dice.Add(3);
+				dice.Add(4);
+				dice.Add(5);
+				dice.Add(6);
+			}
+			RollDice();
+		}
+		public void DisplayUI()
+		{
+			Console.Clear();
+			Console.WriteLine("                         GET TO 5000 POINTS FIRST                               ");
+			Console.WriteLine("________________________________________________________________________________");
+			Console.WriteLine("\rPLAYER SCORES: Player 1: " + scores[0] + ", Player 2: " + scores[1] + ", Player 3: " +
+							  scores[2]);
+			Console.WriteLine("________________________________________________________________________________");
+			Console.WriteLine("\rCurrent points: " + currentPoints);
+			Console.WriteLine();
+			if (YouWon)
+			{
+				Console.WriteLine("You won!");
+			}
+		}
+		public void RollDice()
+		{
+			Random randNum = new Random();
+			for (int i = 0; i < dice.Count; i++)
+			{
+				dice[i] = randNum.Next(min, max);
+			}
+			DisplayUI();
+			DisplayDices();
+		}
+		void DisplayDices()
+		{
+			for (int i = 0; i < dice.Count; i++)
+			{
+				Console.WriteLine("Number of dice:  " + (i + 1));
+				Console.WriteLine(" You got:  " + dice[i]);
+			}
+		}
