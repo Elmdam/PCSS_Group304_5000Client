@@ -1,1 +1,2 @@
 C:\Users\Krist\OneDrive\Dokumenter\GitHub\PCSS_Group304_5000Client\PCSS_Group304_5000Client\bin\Debug\PCSS_Group304_5000Client.exe.config
+C:\Users\Thea\Documents\GitHub\PCSS_Group304_5000Client\PCSS_Group304_5000Client\bin\Debug\PCSS_Group304_5000Client.exe.config

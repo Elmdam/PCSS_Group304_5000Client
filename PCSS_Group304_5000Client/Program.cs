@@ -292,3 +292,183 @@ namespace clientpcss
 				Console.WriteLine(" You got:  " + dice[i]);
 			}
 		}
+        public void ChooseDice()
+        {
+            Console.WriteLine("select a dice by it's value, to collect points");
+            string currentInput = Console.ReadLine();
+            int removeInt = Convert.ToInt32(currentInput);
+            int currentInt = Convert.ToInt32(currentInput) - 1;
+
+            int isThereMore = 0;
+
+
+
+            foreach (int item in dice)
+            {
+                if (item == removeInt)
+                {
+                    isThereMore++;
+                }
+
+            }
+
+            if (isThereMore == 6)
+            {
+                Console.Write("\rYou added " + dice[currentInt] + " to your current points");
+
+                if (dice[currentInt] != 1)
+                {
+                    currentPoints += dice[currentInt] * 100 * 5;
+                }
+                if (dice[currentInt] == 1)
+                {
+                    currentPoints += dice[currentInt] * 1000 * 5;
+                }
+
+                currentPoints += dice[currentInt];
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+
+
+                DisplayDices();
+            }
+
+            else if (isThereMore == 5)
+            {
+                Console.Write("\rYou added " + dice[currentInt] + " to your current points");
+
+                if (dice[currentInt] != 1)
+                {
+                    currentPoints += dice[currentInt] * 100 * 4;
+                }
+                if (dice[currentInt] == 1)
+                {
+                    currentPoints += dice[currentInt] * 1000 * 4;
+                }
+
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+
+                DisplayDices();
+            }
+
+            else if (isThereMore == 4)
+            {
+                Console.Write("\rYou added " + dice[currentInt] + " to your current points");
+
+                if (dice[currentInt] != 1)
+                {
+                    currentPoints += dice[currentInt] * 100 * 2;
+                }
+                if (dice[currentInt] == 1)
+                {
+                    currentPoints += dice[currentInt] * 1000 * 2;
+                }
+
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+
+                DisplayDices();
+            }
+
+            else if (isThereMore == 3)
+            {
+                Console.Write("\rYou added " + dice[currentInt] + " to your current points");
+
+                if (dice[currentInt] != 1)
+                    currentPoints += dice[currentInt] * 100;
+
+                if (dice[currentInt] == 1)
+                    currentPoints += 1000;
+
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+                dice.Remove(removeInt);
+
+                DisplayDices();
+            }
+
+            else if (removeInt == 1)
+            {
+                Console.Write("\rYou added " + dice[currentInt] + " to your current points");
+                currentPoints += 100;
+                dice.Remove(removeInt);
+
+                DisplayDices();
+            }
+
+            else if (removeInt == 5)
+            {
+                Console.Write("\rYou added " + dice[currentInt] + " to your current points");
+                currentPoints += 50;
+                dice.Remove(removeInt);
+
+                DisplayDices();
+            }
+
+            else
+            {
+                Console.WriteLine("value cannot be collected. Please try again."); //value cannot be collected
+                ChooseDice();
+            }
+
+
+            DisplayUI();
+            DisplayDices();
+            RemoveMore();
+
+            //WinGame();
+        }
+
+        public void RemoveMore()
+        {
+            string y;
+
+            if (currentPoints >= 5000 && !YouWon)
+            {
+                Client.SendString("You Won");
+                YouWon = true;
+
+            }
+
+            if (currentPoints != 5000 && !YouWon)
+            {
+                Console.WriteLine("Would you collect more points? - [collect]");
+                Console.WriteLine("Would you roll the dice again? - [roll]");
+                Console.WriteLine("Would you end your turn? - [end]");
+
+                y = Console.ReadLine();
+
+                if (y == "collect")
+                {
+                    Console.WriteLine("Choose a new number");
+                    ChooseDice();
+                }
+
+                if (y == "roll")
+                {
+                    RollDice();
+                    Console.WriteLine("Write 'roll dice' to roll your dice again");
+                }
+
+                if (y == "end")
+                {
+                    Console.WriteLine("Your turn ends here.");
+                    scores[0] += currentPoints;
+                    currentPoints = 0;
+                }
+            }
+            DisplayUI();
+            //  Console.WriteLine("To end turn write: end turn");
+        }
+    }
+}
